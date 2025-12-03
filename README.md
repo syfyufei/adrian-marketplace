@@ -17,7 +17,7 @@ Academic research memory management skill for tracking project continuity, decis
 Slash commands:
 ```bash
 /research-memory:bootstrap    # Restore project context
-/research-memory:log          # Log current session
+/research-memory:remember          # Log current session
 /research-memory:query        # Search history
 ```
 
@@ -53,7 +53,7 @@ Check that commands appear:
 ```
 # Should see:
 # /research-memory:bootstrap - Restore project context and generate work plan
-# /research-memory:log - Log current work session to research memory
+# /research-memory:remember - Log current work session to research memory
 # /research-memory:query - Query research memory history
 ```
 
