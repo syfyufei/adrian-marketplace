@@ -13,6 +13,15 @@ Academic research memory management skill for tracking project continuity, decis
 - Historical Query: Search past decisions, experiments, and insights
 
 **Usage:**
+
+Slash commands:
+```bash
+/research-memory:bootstrap    # Restore project context
+/research-memory:log          # Log current session
+/research-memory:query        # Search history
+```
+
+Natural language:
 ```
 "Research Memory, help me get back up to speed with my project"
 "Log this work session to Research Memory"
@@ -35,13 +44,20 @@ Then install the plugin from this marketplace:
 
 ### Verify Installation
 
-Test a skill by using it in Claude Code:
+Check that commands appear:
+
+```bash
+/help
+```
 
 ```
-"Research Memory, help me get back up to speed with my project"
+# Should see:
+# /research-memory:bootstrap - Restore project context and generate work plan
+# /research-memory:log - Log current work session to research memory
+# /research-memory:query - Query research memory history
 ```
 
-If installed correctly, Claude will use the research-memory tools. All skills will be available for use immediately.
+All skills will be available for use immediately via slash commands or natural language.
 
 ## Structure
 
