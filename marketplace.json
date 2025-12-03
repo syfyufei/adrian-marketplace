@@ -1,0 +1,18 @@
+{
+  "name": "adrian-marketplace",
+  "description": "Personal Claude Code plugin marketplace",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "research-memory",
+      "description": "A plugin for research and memory management",
+      "version": "1.0.0",
+      "source": "syfyufei/research-memory",
+      "type": "github",
+      "category": "productivity",
+      "tags": ["research", "memory", "notes"],
+      "author": "syfyufei",
+      "license": "MIT"
+    }
+  ]
+}
