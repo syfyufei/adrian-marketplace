@@ -35,10 +35,10 @@ Then install the plugin from this marketplace:
 
 ### Verify Installation
 
-After installation, test a skill in Claude Code:
+Check that skills are available:
 
-```
-"Research Memory, help me get back up to speed with my project"
+```bash
+/help
 ```
 
 All skills will be available for use immediately.
