@@ -2,16 +2,22 @@
   "name": "adrian-marketplace",
   "description": "Personal Claude Code plugin marketplace",
   "version": "1.0.0",
+  "owner": {
+    "name": "Adrian",
+    "email": "syfyufei@gmail.com"
+  },
   "plugins": [
     {
       "name": "research-memory",
       "description": "A plugin for research and memory management",
       "version": "1.0.0",
-      "source": "syfyufei/research-memory",
-      "type": "github",
+      "source": "./plugins/research-memory",
       "category": "productivity",
       "tags": ["research", "memory", "notes"],
-      "author": "syfyufei",
+      "author": {
+        "name": "syfyufei",
+        "url": "https://github.com/syfyufei"
+      },
       "license": "MIT"
     }
   ]
