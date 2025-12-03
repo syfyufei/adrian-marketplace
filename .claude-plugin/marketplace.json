@@ -1,24 +1,20 @@
 {
-  "name": "adrian-marketplace",
-  "description": "Personal Claude Code plugin marketplace",
-  "version": "1.0.0",
+  "name": "adrian-skills-marketplace",
+  "description": "Adrian's curated marketplace of Claude Code skills",
   "owner": {
     "name": "Adrian",
     "email": "syfyufei@gmail.com"
   },
   "plugins": [
     {
-      "name": "research-memory",
-      "description": "A plugin for research and memory management",
+      "name": "adrian-skills",
+      "description": "Collection of skills for research and development workflows",
       "version": "1.0.0",
-      "source": "./plugins/research-memory",
-      "category": "productivity",
-      "tags": ["research", "memory", "notes"],
+      "source": "./",
       "author": {
-        "name": "syfyufei",
-        "url": "https://github.com/syfyufei"
-      },
-      "license": "MIT"
+        "name": "Adrian",
+        "email": "syfyufei@gmail.com"
+      }
     }
   ]
 }
