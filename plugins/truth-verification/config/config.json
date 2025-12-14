@@ -104,5 +104,32 @@
     "log_format": "json",
     "retention_days": 90,
     "max_log_size_mb": 10
+  },
+
+  "versioning_settings": {
+    "enabled": true,
+    "version_control_system": "git",
+    "auto_backup_on_changes": true,
+    "backup_format": "compressed",
+    "max_versions_to_keep": 100,
+    "snapshot_interval_hours": 24
+  },
+
+  "large_file_optimization": {
+    "enabled": true,
+    "streaming_threshold_mb": 10,
+    "chunk_size_mb": 1,
+    "parallel_chunks": 4,
+    "compression_enabled": true,
+    "compression_algorithm": "gzip"
+  },
+
+  "collaboration_settings": {
+    "enabled": true,
+    "multi_user_support": true,
+    "conflict_resolution": "last-write-wins",
+    "audit_user_actions": true,
+    "share_manifests": true,
+    "team_notifications": true
   }
 }
