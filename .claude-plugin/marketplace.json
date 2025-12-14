@@ -1,6 +1,7 @@
 {
   "name": "LLM-Research-Marketplace",
   "description": "Curated marketplace of Claude Code skills for AI/LLM research and development",
+  "version": "3.0.0",
   "owner": {
     "name": "Adrian",
     "email": "syfyufei@gmail.com"
