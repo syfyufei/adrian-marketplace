@@ -1,0 +1,89 @@
+{
+  "version": "0.1.0",
+  "skill_name": "truth-verification",
+  "description": "Research integrity tracking and data provenance verification",
+
+  "hash_settings": {
+    "algorithm": "SHA256",
+    "chunk_size": 8388608,
+    "store_partial_hashes": false,
+    "cache_hashes_in_memory": true
+  },
+
+  "monitored_directories": {
+    "data_raw": "data/raw",
+    "data_cleaned": "data/cleaned",
+    "analysis_scripts": "codes",
+    "figures": "paper/figures",
+    "manuscripts": "paper/manuscripts"
+  },
+
+  "verification_settings": {
+    "mode": "strict",
+    "detect_permission_changes": true,
+    "detect_timestamp_changes": false,
+    "allow_hardlink_detection": true,
+    "report_unregistered_files": true
+  },
+
+  "reproducibility_scoring": {
+    "enabled": true,
+    "weights": {
+      "input_integrity": 40,
+      "script_traceability": 30,
+      "output_attribution": 20,
+      "no_orphaned_data": 10
+    },
+    "pass_threshold": 75,
+    "excellent_threshold": 90
+  },
+
+  "integration_settings": {
+    "research_memory": {
+      "enabled": true,
+      "log_registrations": true,
+      "log_verifications": true,
+      "log_reproducibility_scores": true
+    },
+    "project_management": {
+      "enabled": true,
+      "validate_during_status": true,
+      "check_data_directories_exist": true
+    }
+  },
+
+  "citation_validation": {
+    "supported_formats": ["markdown", "latex", "plain-text"],
+    "citation_patterns": [
+      "file:path/to/file",
+      "data/[a-zA-Z0-9_-]+\\.csv",
+      "codes/[a-zA-Z0-9_-]+\\.py",
+      "paper/figures/[a-zA-Z0-9_-]+\\.(png|jpg|pdf)"
+    ],
+    "strict_mode": false,
+    "warn_on_hardcoded_paths": true
+  },
+
+  "audit_reporting": {
+    "include_timeline": true,
+    "include_anomalies": true,
+    "include_recommendations": true,
+    "default_format": "markdown",
+    "supported_formats": ["markdown", "json", "html"]
+  },
+
+  "performance_settings": {
+    "max_file_size_mb": 500,
+    "batch_size_for_hashing": 100,
+    "async_hashing_for_large_files": true,
+    "cache_manifest_in_memory": true
+  },
+
+  "logging": {
+    "enabled": true,
+    "log_directory": ".truth/logs",
+    "log_format": "json",
+    "retention_days": 90,
+    "max_log_size_mb": 10
+  }
+}

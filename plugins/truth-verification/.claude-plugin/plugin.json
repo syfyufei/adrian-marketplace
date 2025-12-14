@@ -1,0 +1,51 @@
+{
+  "name": "truth-verification",
+  "version": "0.1.0",
+  "description": "Ensure research integrity by tracking data provenance, verifying authenticity, and preventing fabricated claims",
+  "author": {
+    "name": "Adrian",
+    "email": "syfyufei@gmail.com"
+  },
+  "commands": [
+    {
+      "name": "init",
+      "path": "commands/init.md",
+      "description": "Initialize .truth/ infrastructure for data tracking and verification"
+    },
+    {
+      "name": "register",
+      "path": "commands/register.md",
+      "description": "Register data sources with SHA256 hashing for integrity verification"
+    },
+    {
+      "name": "track",
+      "path": "commands/track.md",
+      "description": "Track analysis script execution and data dependencies"
+    },
+    {
+      "name": "verify",
+      "path": "commands/verify.md",
+      "description": "Verify data integrity by comparing current file hashes against registered values"
+    },
+    {
+      "name": "cite-check",
+      "path": "commands/cite-check.md",
+      "description": "Validate citations in papers and ensure all referenced data is registered"
+    },
+    {
+      "name": "reproduce",
+      "path": "commands/reproduce.md",
+      "description": "Validate reproducibility by checking dependency chains and computing reproducibility scores"
+    },
+    {
+      "name": "audit",
+      "path": "commands/audit.md",
+      "description": "Generate comprehensive audit reports with timeline and anomaly detection"
+    },
+    {
+      "name": "status",
+      "path": "commands/status.md",
+      "description": "Display verification status dashboard with statistics and recommendations"
+    }
+  ]
+}
