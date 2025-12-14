@@ -8,7 +8,7 @@ Run `/project-management:validate` to ensure a project matches the standard blue
 ## Preparation
 1. Ask for `root` path (default current).
 2. Determine whether to `fix_issues` (y/n) and if `strict_mode` should flag extra directories/files.
-3. Load scoring weights from `config/marketplace-config.json -> project-management.validation.scoring_weights`.
+3. Load scoring weights from `../config/config.json -> validation.scoring_weights`.
 
 ## Execution Steps
 1. **Directory/File Scan**

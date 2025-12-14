@@ -16,7 +16,7 @@ Execute `/skill-squared:command` so the user gains a new `.claude/commands/<name
    - Command name not already present in `.claude/commands/`
    - Plugin JSON is valid.
 3. Ensure `.claude/commands/` folder exists: `mkdir -p "$skill_dir/.claude/commands"`.
-4. Render command file using `templates/skill/command.md.template`. Variables:
+4. Render command file using `../templates/skill/command.md.template`. Variables:
    - `command_name`
    - `command_title` (title case)
    - `command_description`

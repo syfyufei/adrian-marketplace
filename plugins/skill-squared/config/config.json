@@ -1,0 +1,28 @@
+{
+  "version": "0.1.0",
+  "name": "skill-squared",
+  "validation": {
+    "required_files": [
+      ".claude-plugin/marketplace.json",
+      ".claude-plugin/plugin.json",
+      "skills/{skill_name}.md",
+      "README.md",
+      "LICENSE",
+      "install.sh"
+    ],
+    "required_frontmatter": ["name", "description"],
+    "executable_files": ["install.sh"]
+  },
+  "sync": {
+    "backup_enabled": true,
+    "backup_suffix": ".backup",
+    "files_to_sync": [
+      "skills/{skill_name}.md",
+      ".claude/commands/"
+    ]
+  },
+  "templates": {
+    "dir": "templates/skill",
+    "variable_pattern": "{{(\\w+)}}"
+  }
+}

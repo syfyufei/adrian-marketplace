@@ -8,11 +8,12 @@
 - `install.sh` installs the marketplace locally or stages a copy when `TARGET` is set.
 
 ## Build, Test, and Development Commands
-- `./install.sh` – Registers the marketplace and installs `llm-research` into Claude Code from the local checkout.
+- `./install.sh` – Registers the marketplace into Claude Code from the local checkout. Users then install plugins via `/plugin install <skill>@LLM-Research-Marketplace`.
 - `TARGET=/tmp/llm-rm ./install.sh` – Stage the marketplace files (skills, commands, templates, config) into a target directory for inspection.
 - `claude plugin marketplace add <path>` then `claude plugin install llm-research@LLM-Research-Marketplace` – Manual install from a path (mirrors the script).
-- `claude plugin list` / `/help` – Verify the plugin is present and all 18 commands are exposed.
-- `claude plugin update llm-research` – Refresh after changes; re-run `/help` to confirm.
+- `/plugin list` – Verify 3 plugins are present (or fewer if selective install).
+- `/help` – Verify commands are exposed (should show 18 total if all 3 plugins installed).
+- `/plugin update <skill>` – Refresh a specific plugin after changes.
 
 ## Coding Style & Naming Conventions
 - Commands and skills are Markdown with frontmatter and clear sections (Goal, Preparation, Execution, Error Handling). Use imperative, task-focused language.

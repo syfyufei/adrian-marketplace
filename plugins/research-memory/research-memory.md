@@ -236,7 +236,7 @@ Claude: [Calls research_memory_query_history]
 
 ## Configuration
 
-The skill supports configuration through `config/config.json`:
+The skill supports configuration through `./config/config.json`:
 
 ```json
 {

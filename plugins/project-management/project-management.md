@@ -14,7 +14,7 @@ Organizes academic and applied research projects with predictable directory stru
 3. **Config-driven validation** that scores compliance (0‑100) and can optionally auto-fix gaps.
 4. **At-a-glance status reporting** with file statistics, Git telemetry, and validation insights.
 
-All operations rely on `config/marketplace-config.json` for structure, scoring weights, and template defaults.
+All operations rely on `config/config.json` for structure, scoring weights, and template defaults.
 
 ## Research Project Blueprint
 
@@ -151,5 +151,5 @@ Generates a dashboard view of project health.
 ## References
 
 - Templates: `templates/project/*.template`
-- Config: `config/marketplace-config.json -> project-management`
+- Config: `config/config.json`
 - Commands: `.claude/commands/project-management/*.md`

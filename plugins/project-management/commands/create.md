@@ -26,10 +26,10 @@ Guide the user through `/project-management:create` to spin up a new project dir
 2. **Render templates** using values:
    - `creation_date=$(date +%Y-%m-%d)`
    - `year=$(date +%Y)`
-   Copy from `templates/project/*.template`:
+   Copy from `../templates/project/*.template`:
    ```bash
    env PROJECT_NAME="..." AUTHOR_NAME="..." DESCRIPTION="..." CREATION_DATE="$creation_date" YEAR="$year" \
-     envsubst < templates/project/README.md.template > "$PROJECT_PATH/README.md"
+     envsubst < ../templates/project/README.md.template > "$PROJECT_PATH/README.md"
    ```
    Repeat for `.gitignore` and `project.yml`. Also write `.project-config.json` matching the template in `skills/project-management.md`.
 3. **Git initialization**

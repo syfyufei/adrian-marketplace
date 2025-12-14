@@ -63,27 +63,34 @@ The repository is now structured as a marketplace containing multiple plugins.
 ```
 llm-research-marketplace/
 ├── .claude-plugin/
-│   └── marketplace.json      # Defines the marketplace and points to the plugins
+│   └── marketplace.json              # Marketplace definition with 3 plugins
 ├── plugins/
 │   ├── research-memory/
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json   # Defines the 'research-memory' plugin
-│   │   ├── commands/         # 10 command files
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── commands/                 # 10 command files
+│   │   ├── config/config.json
+│   │   ├── docs/
 │   │   └── research-memory.md
 │   ├── project-management/
-│   │   └── ...               # Structure for 'project-management' plugin
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── commands/                 # 4 command files
+│   │   ├── templates/project/        # Bundled templates
+│   │   ├── config/config.json
+│   │   ├── docs/
+│   │   └── project-management.md
 │   └── skill-squared/
-│       └── ...               # Structure for 'skill-squared' plugin
-├── templates/
-│   ├── project/
-│   └── skill/
-├── config/
-│   └── marketplace-config.json
-├── docs/
-│   ├── research-memory.md
-│   ├── project-management.md
-│   └── skill-squared.md
+│       ├── .claude-plugin/plugin.json
+│       ├── commands/                 # 4 command files
+│       ├── templates/skill/          # Bundled templates
+│       ├── config/config.json
+│       ├── docs/
+│       └── skill-squared.md
+├── docs/                             # Marketplace-level docs
 ├── install.sh
+├── ARCHITECTURE.md
+├── CLAUDE.md
+├── AGENTS.md
+├── USAGE.md
 └── README.md
 ```
 
@@ -108,7 +115,44 @@ Manage each skill individually.
   - `/Users/adriansun/Documents/GitHub/research-memory`
   - `/Users/adriansun/Documents/GitHub/project-management`
   - `/Users/adriansun/Documents/GitHub/skill-squared`
-- Sync changes into this marketplace with `/skill-squared:sync` to keep the unified plugin current.
+- Sync changes from standalone repos into this marketplace with `/skill-squared:sync` to keep skills up-to-date.
+
+## Migration from v2.x (Unified Plugin)
+
+If you previously installed the unified "llm-research" plugin version 2.x:
+
+1. **Uninstall the old plugin**:
+   ```bash
+   /plugin uninstall llm-research
+   ```
+
+2. **Update to v3.x** (independent plugins):
+   ```bash
+   cd /path/to/llm-research-marketplace
+   git pull
+   ./install.sh
+   ```
+
+3. **Install the plugins you need**:
+   ```bash
+   # You can now install plugins individually or all three:
+   /plugin install research-memory@LLM-Research-Marketplace
+   /plugin install project-management@LLM-Research-Marketplace
+   /plugin install skill-squared@LLM-Research-Marketplace
+   ```
+
+4. **Verify the new structure**:
+   ```bash
+   /plugin list       # Should show 3 separate plugins
+   /help              # Should show 18 commands (or fewer if you installed selectively)
+   ```
+
+### What Changed in v3.x
+
+- **Independent Plugins**: Each skill is now a fully self-contained plugin that can be installed/uninstalled separately
+- **Plugin-Local Resources**: Templates and configuration files are bundled within each plugin instead of shared at the marketplace root
+- **Better Isolation**: Plugins no longer depend on shared resources, making them truly installable as independent units
+- **Selective Installation**: You can now install only the plugins you need instead of getting all features
 
 ## License
 

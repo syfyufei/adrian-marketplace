@@ -1,18 +1,18 @@
 # LLM Research Marketplace – Usage Guide
 
-This guide explains how to verify the installation, run each skill, and troubleshoot common issues for the v2.0.0 multi-skill release.
+This guide explains how to verify the installation, run each skill, and troubleshoot common issues for the v3.x independent plugins release.
 
 ## Verify Installation
 
-After running `./install.sh` or `/plugin install llm-research@LLM-Research-Marketplace`:
+After adding the marketplace and installing plugins:
 
 ```bash
-/plugin list             # Expect llm-research v2.0.0
-/plugin marketplace list # Expect LLM-Research-Marketplace
-/help                    # Should show 18 commands
+/plugin list             # Expect: research-memory, project-management, skill-squared
+/plugin marketplace list # Expect: LLM-Research-Marketplace
+/help                    # Should show 18 commands (if all 3 installed) or fewer (if selective)
 ```
 
-If `/help` does not list all namespaces, reinstall via `./install.sh`.
+If commands are missing, verify you installed the needed plugins via `/plugin install <skill>@LLM-Research-Marketplace`.
 
 ## Multi-Skill Quick Start
 
@@ -31,7 +31,7 @@ If `/help` does not list all namespaces, reinstall via `./install.sh`.
 - **Logging**: `/research-memory:remember` (full session), `/research-memory:checkpoint` (quick note), `/research-memory:summary` (summarize conversation), `/research-memory:review` (bounded time window).
 - **Query**: `/research-memory:query` searches across memory files; `/research-memory:status` spots stale areas.
 
-Keep the `memory/` directory inside each project. Configuration lives in `config/marketplace-config.json -> research-memory` (recent entry count, phase sections).
+Keep the `memory/` directory inside each project. Configuration lives in the plugin's `config/config.json` (recent entry count, phase sections).
 
 ### project-management
 - **Create**: `/project-management:create` asks for project name/root, validates kebab-case, renders templates from `templates/project/`, and optionally initiates Git.
@@ -55,7 +55,7 @@ Keep the `memory/` directory inside each project. Configuration lives in `config
 
 | Symptom | Checks | Fix |
 | --- | --- | --- |
-| Commands missing in `/help` | `claude plugin list` → ensure `llm-research v2.0.0` | Re-run `./install.sh`; ensure `.claude-plugin/plugin.json` lists all 18 commands. |
+| Commands missing in `/help` | `claude plugin list` → ensure all 3 plugins installed | Run `/plugin install <skill>@LLM-Research-Marketplace` for each needed plugin. |
 | `research-memory` cannot find memory files | Ensure `memory/` exists, run `ls memory` | Create via `mkdir -p memory` and rerun `/research-memory:bootstrap` (will create templates). |
 | `project-management:create` fails regex | Project name must be kebab-case | Rename input and retry or set `force` for collisions. |
 | Validation score stuck low | Missing directories/files | Run `/project-management:validate --fix-issues true` then inspect summary. |
@@ -65,15 +65,15 @@ Keep the `memory/` directory inside each project. Configuration lives in `config
 ## Management Commands
 
 ```bash
-claude plugin list
-claude plugin update llm-research
-claude plugin uninstall llm-research
-claude plugin marketplace remove LLM-Research-Marketplace
+/plugin list                                                 # Show installed plugins
+/plugin update research-memory                               # Update a specific plugin
+/plugin uninstall project-management                         # Remove a plugin
+/plugin marketplace remove LLM-Research-Marketplace          # Remove entire marketplace
 ```
 
 ## Further Reading
 
-- `docs/research-memory.md`
-- `docs/project-management.md`
-- `docs/skill-squared.md`
-- `ARCHITECTURE.md`
+- Skill-specific docs: `plugins/<skill>/docs/<skill>.md`
+- Marketplace architecture: `ARCHITECTURE.md`
+- Development notes: `AGENTS.md`
+- Claude Code setup: `CLAUDE.md`

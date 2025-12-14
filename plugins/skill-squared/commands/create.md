@@ -29,7 +29,7 @@ Use `/skill-squared:create` to scaffold a complete skill project from scratch.
    config/
    docs/
    ```
-4. Render templates from `templates/skill/*.template` (inside this marketplace) using env substitution:
+4. Render templates from `../templates/skill/*.template` using env substitution:
    ```bash
    export SKILL_NAME=...
    export SKILL_DESCRIPTION=...
@@ -38,7 +38,7 @@ Use `/skill-squared:create` to scaffold a complete skill project from scratch.
    export GITHUB_USER=...
    export VERSION=...
    export CREATED_DATE=$(date +%Y-%m-%d)
-   envsubst < templates/skill/plugin.json.template > "$SKILL_PATH/.claude-plugin/plugin.json"
+   envsubst < ../templates/skill/plugin.json.template > "$SKILL_PATH/.claude-plugin/plugin.json"
    # repeat for marketplace.json, skill.md, README.md, install.sh, CLAUDE.md
    ```
 5. Copy `.gitignore` and `LICENSE` contents (use MIT license text with current year + author).
@@ -51,5 +51,5 @@ Use `/skill-squared:create` to scaffold a complete skill project from scratch.
 
 ## Error Handling
 - If directory exists, stop unless the user explicitly confirms `force`.
-- Missing templates → point to `templates/skill/` and suggest running `/skill-squared:sync` to refresh.
+- Missing templates → point to `../templates/skill/` and suggest running `/skill-squared:sync` to refresh.
 - Template render failure → include variable name causing the issue and reference docs/skill-squared.md for valid placeholders.

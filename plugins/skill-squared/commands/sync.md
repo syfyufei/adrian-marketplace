@@ -17,7 +17,7 @@ Use `/skill-squared:sync` to copy the skill markdown + command files from a sour
 2. Determine `skill_name`:
    - If provided, trust it.
    - Else parse `.claude-plugin/plugin.json` for `"name"`.
-3. Load sync config from `config/marketplace-config.json -> skill-squared.sync.files_to_sync` (defaults: `skills/{skill_name}.md` + `.claude/commands/`).
+3. Load sync config from `../config/config.json -> sync.files_to_sync` (defaults: `skills/{skill_name}.md` + `.claude/commands/`).
 4. Build file list; show preview to the user and confirm unless `dry_run=false` with explicit approval.
 5. For each file:
    - Ensure target subdirectory exists (e.g., `.claude/commands/skill-squared/` inside the marketplace).

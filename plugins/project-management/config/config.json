@@ -1,0 +1,39 @@
+{
+  "version": "0.1.0",
+  "name": "project-management",
+  "standard_structure": {
+    "required_dirs": [
+      "claude-code",
+      "data/raw",
+      "data/cleaned",
+      "codes",
+      "paper/figures",
+      "paper/manuscripts",
+      "pre/poster",
+      "pre/slides"
+    ],
+    "required_files": [
+      "README.md",
+      ".gitignore",
+      "project.yml"
+    ]
+  },
+  "validation": {
+    "scoring_weights": {
+      "directories": 40,
+      "required_files": 35,
+      "content_quality": 15,
+      "git_integration": 10
+    },
+    "ui_thresholds": {
+      "excellent": 90,
+      "good": 75,
+      "fair": 60,
+      "poor": 0
+    }
+  },
+  "templates": {
+    "dir": "templates/project",
+    "variables": ["project_name", "author_name", "description", "creation_date", "year"]
+  }
+}

@@ -38,7 +38,7 @@ Skill-Squared turns the standalone Python automation for managing Claude Code sk
    config/
    docs/
    ```
-3. Render templates from `templates/skill/*.template` using context variables above plus derived values:
+3. Render templates from `./templates/skill/*.template` using context variables above plus derived values:
    - `display_name` → title case (e.g., `data-orbit` → `Data Orbit`)
    - `repository_url` → `https://github.com/{github_user}/{skill_name}`
    - `created_date` → `$(date +%Y-%m-%d)`
@@ -65,7 +65,7 @@ Skill-Squared turns the standalone Python automation for managing Claude Code sk
 1. Validate `skill_dir` exists and contains `.claude-plugin/plugin.json`.
 2. Ensure `.claude/commands/` exists, creating if necessary.
 3. Confirm the command does not already exist.
-4. Generate `.claude/commands/{command_name}.md` from `templates/skill/command.md.template`, injecting:
+4. Generate `.claude/commands/{command_name}.md` from `./templates/skill/command.md.template`, injecting:
    - YAML frontmatter `description`
    - Command title derived from command name
    - Body instructions (defaults to “Use the skill to handle …” if not provided)
@@ -83,7 +83,7 @@ Skill-Squared turns the standalone Python automation for managing Claude Code sk
 
 **Steps**
 1. Validate directories exist and contain the expected files.
-2. Load sync config from `config/marketplace-config.json -> skill-squared.sync.files_to_sync`.
+2. Load sync config from `./config/config.json -> sync.files_to_sync`.
 3. Build file list (skill definition plus `.claude/commands/` folder).
 4. For each target file:
    - If backup enabled and file exists, copy to `${file}.backup.<timestamp>.md`.

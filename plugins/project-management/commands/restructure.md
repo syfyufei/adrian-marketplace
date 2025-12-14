@@ -8,7 +8,7 @@ Upgrade an existing project to the canonical layout while preserving data by cre
 ## Preparation
 1. Gather `root` (project path), `backup` (default true), `remove_nonstandard` (default true), and `force` flags.
 2. Verify the directory exists via `ls "$root"`; abort with actionable error if missing.
-3. Load required directories/files from `config/marketplace-config.json -> project-management.standard_structure`.
+3. Load required directories/files from `../config/config.json -> standard_structure`.
 
 ## Execution
 1. **Backup (if enabled)**

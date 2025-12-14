@@ -12,7 +12,7 @@ Run `/skill-squared:validate` on a skill directory (standalone or marketplace) t
 
 ## Steps
 1. Confirm directory exists. If `skill_name` omitted, auto-detect by reading `.claude-plugin/plugin.json` or the lone file inside `skills/`.
-2. Load validation config from `config/marketplace-config.json -> skill-squared.validation`.
+2. Load validation config from `../config/config.json -> validation`.
 3. **Required files**: iterate through configured patterns (expand `{skill_name}`) and ensure each exists. Record missing items as errors.
 4. **JSON validation**: run `jq empty` (or `python -m json.tool`) on `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`.
 5. **Frontmatter checks**:

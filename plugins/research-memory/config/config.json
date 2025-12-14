@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "name": "research-memory",
+  "bootstrap": {
+    "recent_entries_count": 5,
+    "include_todos": true
+  },
+  "logging": {
+    "phase_sections": [
+      "DGP",
+      "data_preprocess",
+      "data_analyse",
+      "modeling",
+      "robustness",
+      "writing",
+      "infra",
+      "notes"
+    ]
+  }
+}
