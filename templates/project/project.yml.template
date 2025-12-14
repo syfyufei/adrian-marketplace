@@ -1,0 +1,32 @@
+project:
+  name: {{project_name}}
+  description: {{description}}
+  created: {{creation_date}}
+  author: {{author_name}}
+
+directories:
+  claude_code: claude-code
+  data: data
+  data_raw: data/raw
+  data_cleaned: data/cleaned
+  codes: codes
+  paper: paper
+  paper_figures: paper/figures
+  paper_manuscripts: paper/manuscripts
+  pre: pre
+  pre_poster: pre/poster
+  pre_slides: pre/slides
+
+structure:
+  - claude-code
+  - data/raw
+  - data/cleaned
+  - codes
+  - paper/figures
+  - paper/manuscripts
+  - pre/poster
+  - pre/slides
+
+metadata:
+  version: 0.1.0
+  last_updated: {{creation_date}}

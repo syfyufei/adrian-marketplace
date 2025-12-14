@@ -1,290 +1,81 @@
 # Architecture Overview
 
-This document explains the relationship between the two repositories and how they work together following the [superpowers](https://github.com/obra/superpowers) pattern.
+This repository packages three previously standalone skills into one marketplace plugin. Everything is represented as declarative markdown so Claude can execute workflows directly with its native tools.
 
-## Two-Repository Architecture
+## Multi-Skill Marketplace Layout
 
-### 1. llm-research-marketplace (This Repository)
-**Purpose**: Monorepo marketplace containing multiple LLM research skills
-
-**Structure**:
 ```
 llm-research-marketplace/
 ├── .claude-plugin/
-│   ├── marketplace.json      # Defines the marketplace
-│   └── plugin.json          # Defines this as a plugin
-├── skills/
-│   └── research-memory.md   # Skill definition (copied from research-memory repo)
-├── install.sh               # Installation script
-└── README.md                # Main documentation
+│   ├── marketplace.json           # Marketplace definition
+│   └── plugin.json                # Plugin metadata (v2.0.0)
+├── skills/                        # Skill specifications
+│   ├── research-memory.md         # Copied from research-memory v0.2.0
+│   ├── project-management.md      # Converted from Python handlers
+│   └── skill-squared.md           # Converted from Python handlers
+├── .claude/commands/
+│   ├── research-memory/           # 10 commands
+│   ├── project-management/        # 4 commands
+│   └── skill-squared/             # 4 commands
+├── templates/                     # Project + skill template packs
+├── docs/                          # Skill documentation
+└── config/marketplace-config.json # Unified configuration
 ```
 
-**Installation**:
-- Users install ALL skills together from this marketplace
-- Command: `claude plugin install llm-research@LLM-Research-Marketplace`
-- Best for: Users who want the complete skills collection
+All commands are namespaced (`/skill-name:command-name`) to avoid collisions when the plugin grows.
 
-### 2. research-memory (Separate Repository)
-**Purpose**: Standalone skill with implementation
+## Namespaced Command Pattern
 
-**Structure**:
-```
-research-memory/
-├── .claude-plugin/
-│   ├── marketplace.json      # Defines its own marketplace
-│   └── plugin.json          # Defines itself as a plugin
-├── skills/
-│   └── research-memory.md   # Skill definition (source of truth)
-├── handlers.py              # Python implementation
-├── config/                  # Configuration files
-├── .claude/                 # Claude Code settings
-├── install.sh               # Installation script
-└── README.md                # Detailed documentation
-```
+- Directory structure mirrors namespaces: `.claude/commands/<skill>/<command>.md`.
+- `.claude-plugin/plugin.json` lists commands in namespace order, allowing `/help` to group them automatically.
+- Each command file uses YAML frontmatter + procedural sections (Preparation, Execution Steps, Error Handling) so Claude knows exactly how to orchestrate Read/Write/Edit/Bash calls.
 
-**Installation**:
-- Users can install ONLY this skill standalone
-- Command: `claude plugin install research-memory@research-memory-marketplace`
-- Best for: Users who only need research-memory functionality
+## Relationship with Standalone Repositories
 
-## How They Work Together
+| Standalone Repo | Purpose in Marketplace | Sync Mechanism |
+| --- | --- | --- |
+| `research-memory` (v0.2.0) | Source of truth for skill definition + original docs | Copy `skills/research-memory.md` and the 10 command files into `.claude/commands/research-memory/`. Backups removed after verification. |
+| `project-management` (v0.1.0) | Provided Python handlers, templates, configuration | Logic converted into `skills/project-management.md` and four command specs. Templates copied into `templates/project/`. Config merged into unified file. |
+| `skill-squared` (v0.1.0) | Provided scaffolding/validation automation | Converted into `skills/skill-squared.md` plus four commands. Templates + validators merged. |
 
-### Skill Synchronization
+Future updates follow this loop:
+1. Develop in the standalone repo.
+2. Run `/skill-squared:sync` (or manual copy) to bring markdown + commands here.
+3. Commit the marketplace changes and bump version if user-facing.
 
-The `research-memory.md` file exists in both repositories:
+## Python → Markdown Conversion
 
-1. **Source of Truth**: `research-memory/skills/research-memory.md`
-   - Contains the skill definition with tools and documentation
-   - Maintained and updated in the research-memory repository
+Original handlers scripted filesystem work. Each handler was rewritten as declarative sections:
 
-2. **Marketplace Copy**: `llm-research-marketplace/skills/research-memory.md`
-   - Copied from the source of truth
-   - Updated when syncing the marketplace
-   - Allows users to install from the marketplace
+1. **Describe Inputs** – list required/optional parameters and validation rules.
+2. **List Execution Steps** – explicit bash commands, env vars, and output expectations.
+3. **Add Error Handling Guidance** – how Claude should respond when validation fails.
+4. **Provide Example Replies** – ensures consistent UX.
 
-### Sync Process
+Claude now follows the markdown instructions to perform the same operations using Read/Write/Edit/Bash tools without Python code.
 
-When updating skills in the marketplace:
+## Unified Configuration & Templates
 
-```bash
-# Copy updated skill from research-memory to marketplace
-cp /path/to/research-memory/skills/research-memory.md \
-   /path/to/llm-research-marketplace/skills/
+- `config/marketplace-config.json` stores versions, project blueprint requirements, scoring weights, and skill-squared validation settings. All commands reference this file for shared constants.
+- `templates/project/` and `templates/skill/` contain environment-substitution templates (README, gitignore, project.yml, plugin.json, marketplace.json, command skeletons, etc.). Commands reference these locations when rendering files.
 
-# Commit and push marketplace
-cd llm-research-marketplace
-git add skills/research-memory.md
-git commit -m "Update research-memory skill"
-git push
-```
+## Documentation Surfaces
 
-## Installation Patterns
+- `README.md` – Marketplace snapshot, installation, and quick start.
+- `USAGE.md` – Scenario-based instructions per skill with troubleshooting.
+- `docs/*.md` – Skill-specific references packaged with the plugin.
 
-### Pattern 1: Marketplace Installation (Recommended for Multiple Skills)
+## Installation & Distribution
 
-```bash
-# One-command install all skills
-curl -sSL https://raw.githubusercontent.com/syfyufei/llm-research-marketplace/main/install.sh | bash
-```
+Two supported flows:
 
-**Pros**:
-- Single command installs everything
-- Easy to manage all skills together
-- Automatic updates for all skills
+1. **Local repository install** (`./install.sh`): ensures target directories exist, copies skills/commands/templates/config, and prints verification instructions. Works inside Claude Code Devboxes or any local clone.
+2. **Marketplace install** (recommended): use `/plugin marketplace add` + `/plugin install`. Claude pulls metadata from `.claude-plugin` and automatically registers all 18 commands.
 
-**Cons**:
-- Installs all skills even if you only need one
+Both flows end with `/help` showing the three namespaces.
 
-### Pattern 2: Individual Skill Installation
+## Future Expansion
 
-```bash
-# Install only research-memory
-curl -sSL https://raw.githubusercontent.com/syfyufei/research-memory/main/install.sh | bash
-```
-
-**Pros**:
-- Minimal installation (only what you need)
-- Direct access to skill-specific configuration
-- Can use different versions per skill
-
-**Cons**:
-- Need to update each skill separately
-- More management overhead for multiple skills
-
-### Pattern 3: Local Development
-
-```bash
-# For marketplace development
-cd /path/to/llm-research-marketplace
-./install.sh
-
-# For skill development
-cd /path/to/research-memory
-./install.sh
-```
-
-**Pros**:
-- Test changes immediately
-- Full control over configuration
-- Can modify and iterate quickly
-
-**Cons**:
-- Requires local clones
-- Manual sync between repositories
-
-## File Relationships
-
-### Marketplace Configuration Files
-
-**llm-research-marketplace/.claude-plugin/marketplace.json**:
-```json
-{
-  "name": "LLM-Research-Marketplace",
-  "plugins": [
-    {
-      "name": "llm-research",
-      "source": "./"
-    }
-  ]
-}
-```
-- Defines the marketplace
-- Points to the current directory as the plugin source
-
-**llm-research-marketplace/.claude-plugin/plugin.json**:
-```json
-{
-  "name": "llm-research",
-  "description": "Collection of LLM research skills..."
-}
-```
-- Defines the marketplace itself as a plugin
-- Contains metadata for the skills collection
-
-### Individual Skill Configuration Files
-
-**research-memory/.claude-plugin/marketplace.json**:
-```json
-{
-  "name": "research-memory-marketplace",
-  "plugins": [
-    {
-      "name": "research-memory",
-      "source": "./"
-    }
-  ]
-}
-```
-- Allows research-memory to be installed standalone
-- Independent marketplace for this skill only
-
-**research-memory/.claude-plugin/plugin.json**:
-```json
-{
-  "name": "research-memory",
-  "description": "Academic research memory management..."
-}
-```
-- Defines the skill as a standalone plugin
-- Contains skill-specific metadata
-
-## Adding New Skills
-
-### Step 1: Create Skill Repository
-
-1. Create a new repository (e.g., `new-skill`)
-2. Structure like research-memory:
-   ```
-   new-skill/
-   ├── .claude-plugin/
-   │   ├── marketplace.json
-   │   └── plugin.json
-   ├── skills/
-   │   └── new-skill.md
-   ├── handlers.py (if needed)
-   └── install.sh
-   ```
-
-### Step 2: Add to Marketplace
-
-1. Copy skill definition:
-   ```bash
-   cp /path/to/new-skill/skills/new-skill.md \
-      /path/to/llm-research-marketplace/skills/
-   ```
-
-2. Update marketplace README:
-   - Add to "Available Skills" section
-   - Document usage examples
-
-3. Commit and push:
-   ```bash
-   cd llm-research-marketplace
-   git add skills/new-skill.md README.md
-   git commit -m "Add new-skill to marketplace"
-   git push
-   ```
-
-### Step 3: Test Both Installation Methods
-
-```bash
-# Test marketplace installation
-cd llm-research-marketplace
-./install.sh
-
-# Test standalone installation
-cd new-skill
-./install.sh
-```
-
-## Version Management
-
-### Marketplace Versioning
-
-Update version in `llm-research-marketplace/.claude-plugin/plugin.json`:
-```json
-{
-  "version": "1.1.0"
-}
-```
-
-### Individual Skill Versioning
-
-Update version in `research-memory/.claude-plugin/plugin.json`:
-```json
-{
-  "version": "0.3.0"
-}
-```
-
-### Sync Strategy
-
-1. Update skill in its repository
-2. Bump skill version
-3. Copy updated skill.md to marketplace
-4. Optionally bump marketplace version
-5. Test both installation methods
-
-## Best Practices
-
-1. **Single Source of Truth**: Always edit skills in their individual repositories
-2. **Regular Syncs**: Copy updated skills to marketplace regularly
-3. **Version Consistency**: Update versions when making changes
-4. **Test Both Paths**: Verify both marketplace and standalone installation work
-5. **Documentation**: Keep both README files up to date
-6. **Git Tags**: Tag versions for easy rollback
-
-## Future Extensibility
-
-This architecture supports:
-- Adding more skills to the marketplace
-- Each skill maintaining its own repository
-- Users choosing between marketplace or individual installation
-- Independent versioning and updates
-- Collaborative development on individual skills
-
-## References
-
-- Superpowers pattern: https://github.com/obra/superpowers
-- Claude Code documentation: https://docs.anthropic.com/claude-code
-- Individual skill repo: https://github.com/syfyufei/research-memory
+- Add new skills by dropping markdown specs under `skills/` and commands under `.claude/commands/<new-skill>/`.
+- Update `plugin.json` and `config/marketplace-config.json` to register new abilities.
+- Keep standalone repos authoritative for heavy development; synchronize via `/skill-squared:sync` to publish into the marketplace.

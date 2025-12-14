@@ -1,0 +1,23 @@
+{
+  "project_name": "{{project_name}}",
+  "created_at": "{{creation_date}}",
+  "author": "{{author_name}}",
+  "description": "{{description}}",
+  "version": "0.1.0",
+  "structure_version": "1.0",
+  "directories": [
+    "claude-code",
+    "data/raw",
+    "data/cleaned",
+    "codes",
+    "paper/figures",
+    "paper/manuscripts",
+    "pre/poster",
+    "pre/slides"
+  ],
+  "config": {
+    "backup_enabled": true,
+    "auto_validate": true,
+    "git_integration": true
+  }
+}

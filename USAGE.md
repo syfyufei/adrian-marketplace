@@ -1,237 +1,79 @@
-# LLM Research Marketplace - Usage Guide
+# LLM Research Marketplace – Usage Guide
 
-## Installation Verification
+This guide explains how to verify the installation, run each skill, and troubleshoot common issues for the v2.0.0 multi-skill release.
 
-After running the install script, you can verify the installation in a Claude Code session:
+## Verify Installation
 
-### In Claude Code Terminal or Chat
-
-```bash
-# List all plugins
-/plugin list
-
-# Check marketplace status
-/plugin marketplace list
-```
-
-You should see:
-- Marketplace: `LLM-Research-Marketplace`
-- Plugin: `llm-research` (version 1.0.0)
-
-## Using Skills
-
-### research-memory Skill
-
-The research-memory skill is automatically available after installation. Use natural language to trigger it:
-
-#### Starting a Session
-
-```
-"Research Memory, help me get back up to speed with my project"
-"用 research-memory 恢复一下项目状态"
-"今天应该做什么？"
-```
-
-This will:
-- Load your project overview
-- Show recent devlog entries (last 5 by default)
-- Display current TODOs
-- Suggest a work plan
-
-#### Logging Your Work
-
-```
-"Log this work session to Research Memory"
-"帮我记录今天的工作"
-"把这个实验结果记到 research-memory 里"
-```
-
-This will:
-- Analyze your conversation
-- Extract structured information (experiments, decisions, phases)
-- Update memory files (devlog.md, experiments.csv, decisions.md, todos.md)
-
-#### Querying History
-
-```
-"我们之前为什么放弃过这个方案？"
-"Search for our decisions about spatial lag models"
-"查一下之前关于变量构造的讨论"
-```
-
-This will:
-- Search across memory files
-- Return relevant excerpts with context
-- Show timestamps and research phases
-
-## Memory File Structure
-
-After first use, research-memory creates a `memory/` directory in your project:
-
-```
-your-project/
-└── memory/
-    ├── project-overview.md   # Long-term project info
-    ├── devlog.md            # Session logs by phase
-    ├── decisions.md         # Key decisions & rationale
-    ├── experiments.csv      # Structured experiment records
-    └── todos.md             # Current TODO items
-```
-
-All files are plain text (Markdown/CSV) and can be:
-- Edited manually
-- Version controlled with Git
-- Shared with collaborators
-
-## Configuration
-
-You can customize the skill behavior via `config/config.json`:
-
-```json
-{
-    "bootstrap": {
-        "recent_entries_count": 5,
-        "include_todos": true,
-        "suggest_work_plan": true
-    },
-    "logging": {
-        "auto_timestamp": true,
-        "phase_sections": ["DGP", "data_preprocess", "data_analyse", "modeling", "robustness", "writing", "infra", "notes"]
-    },
-    "search": {
-        "max_results": 10,
-        "include_context": true,
-        "context_lines": 3
-    }
-}
-```
-
-## Management Commands
-
-### Update to Latest Version
+After running `./install.sh` or `/plugin install llm-research@LLM-Research-Marketplace`:
 
 ```bash
-# In terminal
-claude plugin update llm-research
-
-# In Claude Code session
-/plugin update llm-research
+/plugin list             # Expect llm-research v2.0.0
+/plugin marketplace list # Expect LLM-Research-Marketplace
+/help                    # Should show 18 commands
 ```
 
-### Uninstall
+If `/help` does not list all namespaces, reinstall via `./install.sh`.
 
-```bash
-# In terminal
-claude plugin uninstall llm-research
+## Multi-Skill Quick Start
 
-# In Claude Code session
-/plugin uninstall llm-research
-```
+1. `/project-management:create` – Scaffold a new research workspace (directories + templates + optional Git init).
+2. `/research-memory:bootstrap` – Restore project context (overview + latest devlog + TODOs) before working.
+3. Work and log progress with `/research-memory:remember` or `/research-memory:checkpoint`.
+4. `/project-management:status` – Capture structural/compliance snapshots for weekly updates.
+5. `/skill-squared:create` – Spin up new Claude Code skills; `/skill-squared:command` adds slash commands.
+6. `/skill-squared:sync` – Copy standalone skill updates into this marketplace; `/skill-squared:validate` ensures compliance before release.
 
-### Reinstall
+## Skill Playbooks
 
-If you need to reinstall:
+### research-memory
+- **Bootstrap**: `/research-memory:bootstrap` compiles `memory/project-overview.md`, the last N entries from `memory/devlog.md`, and open TODOs.
+- **Focus & Planning**: Use `/research-memory:focus`, `/research-memory:timeline`, `/research-memory:insights` for planning and insight generation.
+- **Logging**: `/research-memory:remember` (full session), `/research-memory:checkpoint` (quick note), `/research-memory:summary` (summarize conversation), `/research-memory:review` (bounded time window).
+- **Query**: `/research-memory:query` searches across memory files; `/research-memory:status` spots stale areas.
 
-```bash
-# Remove marketplace
-claude plugin marketplace remove LLM-Research-Marketplace
+Keep the `memory/` directory inside each project. Configuration lives in `config/marketplace-config.json -> research-memory` (recent entry count, phase sections).
 
-# Remove plugin
-claude plugin uninstall llm-research
+### project-management
+- **Create**: `/project-management:create` asks for project name/root, validates kebab-case, renders templates from `templates/project/`, and optionally initiates Git.
+- **Restructure**: `/project-management:restructure` backs up legacy repos, creates missing dirs, and optionally removes non-standard folders.
+- **Validate**: `/project-management:validate` scores compliance (0–100) using config weights and can auto-create missing directories/files.
+- **Status**: `/project-management:status` aggregates metadata, validation score, file stats, and Git info for status reports.
 
-# Reinstall
-./install.sh
-```
+### skill-squared
+- **Create Skills**: `/skill-squared:create` renders entire skill repositories (plugin.json, marketplace.json, README, install.sh, templates) using `templates/skill/`.
+- **Add Commands**: `/skill-squared:command` scaffolds `.claude/commands/<name>.md` and updates plugin.json automatically.
+- **Sync**: `/skill-squared:sync` mirrors `skills/<skill>.md` + `.claude/commands/` from standalone repos into this marketplace with backups and dry-run support.
+- **Validate**: `/skill-squared:validate` ensures required files, YAML frontmatter, and permissions meet publishing standards.
+
+## Integration Examples
+
+- **Daily workflow**: `/project-management:status` (structure) → `/research-memory:bootstrap` (context) → work/log → `/research-memory:summary` for standups.
+- **Skill development**: `/skill-squared:create data-orbit` → develop locally → `/skill-squared:command data-orbit sync` → `/skill-squared:validate` → `/skill-squared:sync` to copy into this marketplace.
+- **Audit prep**: `/project-management:validate --fix-issues true` then `/research-memory:timeline` to pair structural compliance with research narrative.
 
 ## Troubleshooting
 
-### Skill Not Triggering
+| Symptom | Checks | Fix |
+| --- | --- | --- |
+| Commands missing in `/help` | `claude plugin list` → ensure `llm-research v2.0.0` | Re-run `./install.sh`; ensure `.claude-plugin/plugin.json` lists all 18 commands. |
+| `research-memory` cannot find memory files | Ensure `memory/` exists, run `ls memory` | Create via `mkdir -p memory` and rerun `/research-memory:bootstrap` (will create templates). |
+| `project-management:create` fails regex | Project name must be kebab-case | Rename input and retry or set `force` for collisions. |
+| Validation score stuck low | Missing directories/files | Run `/project-management:validate --fix-issues true` then inspect summary. |
+| `/skill-squared:sync` overwrote local work | Backups emitted as `.backup.<timestamp>` | Restore from backup, rerun with `dry_run=true` to preview. |
+| `/skill-squared:validate` flags permissions | `install.sh` not executable | `chmod +x install.sh` in the skill repo before validating. |
 
-1. Verify installation in Claude Code session:
-   ```
-   /plugin list
-   ```
-
-2. Check that the skill file exists:
-   ```
-   ls skills/research-memory.md
-   ```
-
-3. Try explicitly mentioning the skill:
-   ```
-   "Use the research-memory skill to bootstrap my project"
-   ```
-
-### Files Not Created
-
-The memory files are created on first use. If they don't appear:
-
-1. Check write permissions in your project directory
-2. Look for error messages in Claude Code output
-3. Manually create the `memory/` directory:
-   ```bash
-   mkdir -p memory
-   ```
-
-### Update Not Working
-
-If updates don't apply:
-
-1. Uninstall completely:
-   ```bash
-   claude plugin uninstall llm-research
-   claude plugin marketplace remove LLM-Research-Marketplace
-   ```
-
-2. Reinstall:
-   ```bash
-   cd /path/to/llm-research-marketplace
-   ./install.sh
-   ```
-
-## Development & Contribution
-
-### Adding Custom Skills
-
-1. Create a new `.md` file in `skills/`:
-   ```markdown
-   ---
-   name: my-skill
-   description: My custom skill description
-   ---
-
-   # My Skill
-
-   [Skill documentation...]
-   ```
-
-2. Update `README.md` to list the new skill
-
-3. Test locally:
-   ```bash
-   claude plugin update llm-research
-   ```
-
-### Local Development
-
-For development on skills:
+## Management Commands
 
 ```bash
-cd /path/to/llm-research-marketplace
-git pull  # Get latest changes
-
-# Make your edits to skills/*.md
-
-# Reinstall to test
-./install.sh
+claude plugin list
+claude plugin update llm-research
+claude plugin uninstall llm-research
+claude plugin marketplace remove LLM-Research-Marketplace
 ```
 
-## Examples
+## Further Reading
 
-See the [README.md](README.md) for detailed examples of using the research-memory skill in various scenarios.
-
-## Support
-
-For issues or questions:
-- GitHub Issues: [syfyufei/llm-research-marketplace](https://github.com/syfyufei/llm-research-marketplace/issues)
-- Individual skill repos: [syfyufei/research-memory](https://github.com/syfyufei/research-memory)
+- `docs/research-memory.md`
+- `docs/project-management.md`
+- `docs/skill-squared.md`
+- `ARCHITECTURE.md`

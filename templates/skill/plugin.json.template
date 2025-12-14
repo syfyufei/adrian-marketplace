@@ -1,0 +1,14 @@
+{
+  "name": "{{skill_name}}",
+  "version": "{{version}}",
+  "description": "{{skill_description}}",
+  "author": {
+    "name": "{{author_name}}",
+    "email": "{{author_email}}"
+  },
+  "repository": "{{repository_url}}",
+  "keywords": [],
+  "license": "MIT",
+  "skills": ["./skills/{{skill_name}}.md"],
+  "commands": []
+}

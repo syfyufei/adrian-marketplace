@@ -1,133 +1,109 @@
 # LLM Research Marketplace
 
-A curated marketplace of Claude Code skills for AI/LLM research and development workflows, following the [superpowers](https://github.com/obra/superpowers) marketplace pattern.
+LLM Research Marketplace v2.0.0 bundles three Claude Code skills—research-memory, project-management, and skill-squared—into a single plugin with 18 namespaced commands. The marketplace converts all prior Python handlers into declarative markdown specifications so Claude can execute workflows with its native Read/Write/Edit/Bash tools.
 
-## Available Skills
+## Marketplace Snapshot
 
-### research-memory
-Academic research memory management skill for tracking project continuity, decisions, and experiments across sessions.
+| Skill | Version | Purpose | Commands |
+| --- | --- | --- | --- |
+| research-memory | 0.2.0 | Academic research memory management | 10 |
+| project-management | 0.1.0 | Standardized project scaffolding, restructuring, validation | 4 |
+| skill-squared | 0.1.0 | Skill creation, extension, sync, and validation | 4 |
 
-**Features:**
-- Session Bootstrap: Quickly restore project state and recent progress
-- Session Logging: Document research activities with structured phase segmentation
-- Historical Query: Search past decisions, experiments, and insights
-
-**Usage:**
-
-Core commands:
-```bash
-/research-memory:bootstrap    # Restore project context
-/research-memory:status       # Quick status overview
-/research-memory:focus        # Get today's focused plan
-/research-memory:remember     # Remember current session
-/research-memory:query        # Search history
-```
-
-Analysis & reporting:
-```bash
-/research-memory:timeline     # Show project timeline
-/research-memory:summary      # Generate full summary
-/research-memory:review       # Review time period
-/research-memory:insights     # Get AI insights
-/research-memory:checkpoint   # Create checkpoint
-```
-
-Natural language:
-```
-"Research Memory, help me get back up to speed with my project"
-"Show me a quick status"
-"What should I focus on today?"
-"Remember this work session"
-"Generate a project summary for my weekly meeting"
-```
+Total commands: **18** – all registered via `.claude/commands/<skill>/<command>.md`.
 
 ## Installation
 
-In Claude Code, register the marketplace first:
+In a Claude Code terminal:
 
 ```bash
 /plugin marketplace add syfyufei/llm-research-marketplace
+/plugin install llm-research@LLM-Research-Marketplace
 ```
 
-Then install the plugin from this marketplace:
+Alternatively, run the included script locally:
 
 ```bash
-/plugin install llm-research@LLM-Research-Marketplace
+./install.sh
 ```
 
 ### Verify Installation
 
-Check that commands appear:
-
 ```bash
+/plugin list
 /help
 ```
 
-```
-# Should see 10 commands:
-# /research-memory:bootstrap - Restore project context and generate work plan
-# /research-memory:status - Quick project status overview
-# /research-memory:focus - Get focused daily work plan
-# /research-memory:remember - Remember current work session
-# /research-memory:query - Query research memory history
-# /research-memory:timeline - Visualize project timeline
-# /research-memory:summary - Generate comprehensive project summary
-# /research-memory:review - Review work in a specific time period
-# /research-memory:insights - Get AI-powered insights and suggestions
-# /research-memory:checkpoint - Create a named checkpoint of current state
-```
+`/help` should show the 18 commands across three namespaces:
 
-All skills will be available for use immediately via slash commands or natural language.
+- `/research-memory:*` (10 commands)
+- `/project-management:*` (4 commands)
+- `/skill-squared:*` (4 commands)
 
-## Structure
+## Quick Start Workflow
 
-This is a monorepo following the superpowers pattern:
+1. **Create a project workspace** – `/project-management:create` scaffolds directories, templates, and optional Git init.
+2. **Standardize legacy repos** – `/project-management:restructure` backs up and normalizes inherited projects.
+3. **Track research progress** – `/research-memory:bootstrap`, `:remember`, and `:query` manage dev logs, decisions, and plans.
+4. **Build new skills** – `/skill-squared:create` + `/skill-squared:command` scaffold and extend new Claude Code skills.
+5. **Sync skills back** – `/skill-squared:sync` copies artifacts into this marketplace, while `/skill-squared:validate` keeps everything compliant.
+
+## Command Reference
+
+### research-memory Commands
+`bootstrap`, `checkpoint`, `focus`, `insights`, `query`, `remember`, `review`, `status`, `summary`, `timeline`
+
+### project-management Commands
+`create`, `restructure`, `validate`, `status`
+
+### skill-squared Commands
+`create`, `command`, `sync`, `validate`
+
+See `docs/*.md` for deep dives and usage examples.
+
+## Directory Layout
 
 ```
 llm-research-marketplace/
 ├── .claude-plugin/
-│   ├── marketplace.json      # Marketplace definition
-│   └── plugin.json          # Plugin metadata
+│   ├── marketplace.json
+│   └── plugin.json     # Version 2.0.0 with 3 skills / 18 commands
+├── .claude/commands/
+│   ├── research-memory/
+│   ├── project-management/
+│   └── skill-squared/
 ├── skills/
-│   └── research-memory.md   # Research memory skill
-├── install.sh               # Installation script
-└── README.md                # This file
+│   ├── research-memory.md
+│   ├── project-management.md
+│   └── skill-squared.md
+├── templates/
+│   ├── project/
+│   └── skill/
+├── config/
+│   └── marketplace-config.json
+├── docs/
+│   ├── research-memory.md
+│   ├── project-management.md
+│   └── skill-squared.md
+├── install.sh
+├── ARCHITECTURE.md
+├── USAGE.md
+└── README.md
 ```
 
-## Adding New Skills
+## Configuration & Templates
 
-To add new skills to this marketplace:
+- `config/marketplace-config.json` centralizes versions, structure requirements, validation weights, and sync defaults.
+- `templates/project/` renders README/gitignore/project.yml/.project-config.json for `/project-management:*` commands.
+- `templates/skill/` powers `/skill-squared:create` and `/skill-squared:command` (plugin.json, marketplace.json, skill markdown, README, install script, CLAUDE.md, command template).
 
-1. Create a new `.md` file in the `skills/` directory
-2. Follow the skill format with frontmatter:
-   ```markdown
-   ---
-   name: skill-name
-   description: Skill description
-   ---
-   # Skill documentation...
-   ```
-3. Update this README to list the new skill
-4. Commit and push to GitHub
+## Documentation Set
 
-## Individual Skill Repositories
-
-For development and standalone installation, each skill has its own repository:
-
-- **research-memory**: [syfyufei/research-memory](https://github.com/syfyufei/research-memory)
-
-Users can install skills either:
-- From this marketplace (all skills together)
-- From individual repositories (single skill)
-
-## Usage
-
-After installation, skills are automatically available in Claude Code sessions. Simply use natural language to trigger them:
-
-```
-"Research Memory, bootstrap my project context"
-"Log this session to research memory"
-```
+- `docs/research-memory.md` – Phase logging, memory file expectations, and best practices.
+- `docs/project-management.md` – Blueprint, validation scoring, and restructuring notes.
+- `docs/skill-squared.md` – Template engine, sync semantics, validation checklist.
+- `ARCHITECTURE.md` – Multi-skill marketplace pattern, namespacing, and sync relationships.
+- `USAGE.md` – Scenario-based walkthroughs and troubleshooting.
 
 ## Management Commands
 
@@ -135,22 +111,21 @@ After installation, skills are automatically available in Claude Code sessions. 
 # List installed plugins
 claude plugin list
 
-# Update to latest version
+# Update to the latest marketplace release
 claude plugin update llm-research
 
-# Uninstall
+# Remove if needed
 claude plugin uninstall llm-research
 ```
 
-## Contributing
+## Development Notes
 
-This is a personal skills collection. Skills are curated and tested before inclusion.
-
-## Documentation
-
-- **[USAGE.md](USAGE.md)**: Detailed usage guide, verification, and troubleshooting
-- **[ARCHITECTURE.md](ARCHITECTURE.md)**: System architecture and relationship with individual skill repositories
+- Source repositories remain available for deep development:
+  - `/Users/adriansun/Documents/GitHub/research-memory`
+  - `/Users/adriansun/Documents/GitHub/project-management`
+  - `/Users/adriansun/Documents/GitHub/skill-squared`
+- Sync changes into this marketplace with `/skill-squared:sync` to keep the unified plugin current.
 
 ## License
 
-MIT License. Individual skills may have their own licenses.
+MIT License applies to the marketplace. Individual skill templates inherit the same license.
