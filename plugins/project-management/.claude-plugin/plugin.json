@@ -11,12 +11,12 @@
   "license": "MIT",
   "keywords": ["project", "management", "scaffolding", "validation"],
   "skills": [
-    "../project-management.md"
+    "./project-management.md"
   ],
   "commands": [
-    "../commands/create.md",
-    "../commands/restructure.md",
-    "../commands/validate.md",
-    "../commands/status.md"
+    "./commands/create.md",
+    "./commands/restructure.md",
+    "./commands/validate.md",
+    "./commands/status.md"
   ]
 }

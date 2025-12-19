@@ -7,11 +7,11 @@
     "email": "syfyufei@gmail.com"
   },
   "commands": [
-    "../commands/setup.md",
-    "../commands/line.md",
-    "../commands/bar.md",
-    "../commands/dotwhisker.md",
-    "../commands/scatter.md",
-    "../commands/map.md"
+    "./commands/setup.md",
+    "./commands/line.md",
+    "./commands/bar.md",
+    "./commands/dotwhisker.md",
+    "./commands/scatter.md",
+    "./commands/map.md"
   ]
 }

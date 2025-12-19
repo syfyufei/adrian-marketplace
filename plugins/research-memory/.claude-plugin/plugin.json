@@ -11,18 +11,18 @@
   "license": "MIT",
   "keywords": ["research", "memory", "academic", "llm"],
   "skills": [
-    "../research-memory.md"
+    "./research-memory.md"
   ],
   "commands": [
-    "../commands/bootstrap.md",
-    "../commands/checkpoint.md",
-    "../commands/focus.md",
-    "../commands/insights.md",
-    "../commands/query.md",
-    "../commands/remember.md",
-    "../commands/review.md",
-    "../commands/status.md",
-    "../commands/summary.md",
-    "../commands/timeline.md"
+    "./commands/bootstrap.md",
+    "./commands/checkpoint.md",
+    "./commands/focus.md",
+    "./commands/insights.md",
+    "./commands/query.md",
+    "./commands/remember.md",
+    "./commands/review.md",
+    "./commands/status.md",
+    "./commands/summary.md",
+    "./commands/timeline.md"
   ]
 }

@@ -11,12 +11,12 @@
   "license": "MIT",
   "keywords": ["skill", "development", "claude", "tool"],
   "skills": [
-    "../skill-squared.md"
+    "./skill-squared.md"
   ],
   "commands": [
-    "../commands/create.md",
-    "../commands/command.md",
-    "../commands/sync.md",
-    "../commands/validate.md"
+    "./commands/create.md",
+    "./commands/command.md",
+    "./commands/sync.md",
+    "./commands/validate.md"
   ]
 }
