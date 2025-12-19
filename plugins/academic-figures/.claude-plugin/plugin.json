@@ -7,35 +7,11 @@
     "email": "syfyufei@gmail.com"
   },
   "commands": [
-    {
-      "name": "setup",
-      "path": "commands/setup.md",
-      "description": "Check environment and configure fonts for academic figure generation"
-    },
-    {
-      "name": "line",
-      "path": "commands/line.md",
-      "description": "Generate a line chart with grayscale styling"
-    },
-    {
-      "name": "bar",
-      "path": "commands/bar.md",
-      "description": "Generate a bar chart with error bars and grayscale styling"
-    },
-    {
-      "name": "dotwhisker",
-      "path": "commands/dotwhisker.md",
-      "description": "Generate a dot-whisker coefficient plot for regression results"
-    },
-    {
-      "name": "scatter",
-      "path": "commands/scatter.md",
-      "description": "Generate a scatter plot with optional trend line"
-    },
-    {
-      "name": "map",
-      "path": "commands/map.md",
-      "description": "Generate a choropleth map with grayscale fill"
-    }
+    "../commands/setup.md",
+    "../commands/line.md",
+    "../commands/bar.md",
+    "../commands/dotwhisker.md",
+    "../commands/scatter.md",
+    "../commands/map.md"
   ]
 }
